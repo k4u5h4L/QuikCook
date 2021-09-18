@@ -1,0 +1,4 @@
+# public/* linguist-vendored=false
+# *.html linguist-detectable=false
+flutx/* linguist-detectable=false
+lib/flutx/* linguist-detectable=false
