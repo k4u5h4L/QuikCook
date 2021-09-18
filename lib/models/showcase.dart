@@ -7,17 +7,12 @@ class Showcase {
 
   static List<Showcase> getList() {
     return [
-      Showcase(
-          "./assets/images/customapps/cookify/dish-2.jpg",
-          "Cacoa Maca Walnut Milk",
-          "Easy, quick and yet so delicious!",
-          100,
-          50,
-          2),
-      Showcase("./assets/images/customapps/cookify/dish-3.jpg", "Danish Pecun",
+      Showcase("./assets/images/quikcook/dish-2.jpg", "Cacoa Maca Walnut Milk",
+          "Easy, quick and yet so delicious!", 100, 50, 2),
+      Showcase("./assets/images/quikcook/dish-3.jpg", "Danish Pecun",
           "Typical winter pastries", 189, 30, 1),
-      Showcase("./assets/images/customapps/cookify/dish-4.jpg",
-          "Maple Syrup Buns", "Easy, quick and yet so delicious!", 100, 1, 3),
+      Showcase("./assets/images/quikcook/dish-4.jpg", "Maple Syrup Buns",
+          "Easy, quick and yet so delicious!", 100, 1, 3),
     ];
   }
 }

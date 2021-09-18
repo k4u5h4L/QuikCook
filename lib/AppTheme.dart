@@ -451,7 +451,7 @@ class CustomAppTheme {
 
   final Color medicarePrimary, medicareOnPrimary;
 
-  final Color cookifyPrimary, cookifyOnPrimary;
+  final Color Primary, OnPrimary;
 
   final Color lightBlack,
       red,
@@ -495,9 +495,9 @@ class CustomAppTheme {
     this.groceryBg1 = const Color(0xfffbfbfb),
     this.groceryBg2 = const Color(0xfff5f5f5),
 
-    //Cookify
-    this.cookifyPrimary = const Color(0xffdf7463),
-    this.cookifyOnPrimary = const Color(0xffffffff),
+    //
+    this.Primary = const Color(0xffdf7463),
+    this.OnPrimary = const Color(0xffffffff),
 
     //Color
     this.lightBlack = const Color(0xffa7a7a7),
