@@ -49,11 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Container(
                   margin: FxSpacing.x(16),
-                  child: FxText.b2("Excited to cook something new today?",
-                      color: AppTheme.theme.colorScheme.onBackground,
-                      letterSpacing: 0,
-                      xMuted: true,
-                      fontWeight: 700),
+                  child: FxText.b2(
+                    "Excited to cook something new today?",
+                    color: AppTheme.theme.colorScheme.onBackground,
+                    letterSpacing: 0,
+                    xMuted: true,
+                    fontWeight: 700,
+                  ),
                 ),
                 FxSpacing.height(16),
                 FxContainer(

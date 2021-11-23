@@ -1,16 +1,37 @@
-# quikcook
+# QuikCook
 
-A new Flutter project.
+A recipes app for purists, built with flutter.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+- Clone this repo:
 
-A few resources to get you started if this is your first Flutter project:
+```
+git clone https://github.com/k4u5h4L/QuikCook.git && cd QuikCook/
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Check if flutter is woring fine by running:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+flutter doctor -v
+```
+
+- Install dependencies (optional):
+
+```
+flutter pub get
+```
+
+- Run it on an emulator or physical device with:
+
+```
+flutter run
+```
+
+- To build a production release (mostly an APK, as ios is not properly configured), run:
+
+```
+flutter build apk
+```
+
+You can then find the apk at `build/app/outputs/flutter-apk/app-release.apk`.
