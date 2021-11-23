@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quikcook/auth/auth_service.dart';
-import 'package:quikcook/home_screen.dart';
+import 'package:quikcook/full_app.dart';
 
 import './splash_screen.dart';
 import 'package:flutx/themes/app_theme.dart';
@@ -47,7 +47,7 @@ class AuthenticationWrapper extends StatelessWidget {
     if (firebaseUser != null) {
       print(firebaseUser.email);
 
-      return HomeScreen();
+      return FullApp();
     } else {
       return SplashScreen();
     }

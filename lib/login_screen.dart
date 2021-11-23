@@ -100,7 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             password: passwordController.text.trim(),
                           );
 
-                  if (!res is FirebaseAuthException) {
+                  // if (!res is FirebaseAuthException) {
+                  if (res == "signed in") {
                     emailController.text = "";
                     passwordController.text = "";
 
@@ -109,15 +110,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       MaterialPageRoute(builder: (context) => FullApp()),
                     );
                   } else {
-                    SnackBar(
-                      content: Text('Your email or password is incorrect!'),
-                      // action: SnackBarAction(
-                      //   label: 'Undo',
-                      //   onPressed: () {
-                      //     // Some code to undo the change.
-                      //   },
-                      // ),
-                    );
+                    passwordController.text = "";
+                    await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Error'),
+                            content: Text(res),
+                            actions: [
+                              TextButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
                   }
                 },
                 backgroundColor: AppTheme.customTheme.Primary,

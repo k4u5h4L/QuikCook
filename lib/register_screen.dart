@@ -1,7 +1,9 @@
 import 'package:quikcook/AppTheme.dart';
+import 'package:quikcook/auth/auth_service.dart';
 import './forgot_password_screen.dart';
 import './full_app.dart';
 import './login_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutx/icons/two_tone/two_tone_icon.dart';
 import 'package:flutx/icons/two_tone/two_tone_mdi_icons.dart';
@@ -17,6 +19,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -40,20 +45,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
               textAlign: TextAlign.center,
             ),
             FxSpacing.height(32),
-            FxTextField(
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              autoFocusedBorder: true,
-              textFieldStyle: FxTextFieldStyle.outlined,
-              textFieldType: FxTextFieldType.name,
-              filled: true,
-              fillColor: AppTheme.customTheme.Primary.withAlpha(40),
-              enabledBorderColor: AppTheme.customTheme.Primary,
-              focusedBorderColor: AppTheme.customTheme.Primary,
-              prefixIconColor: AppTheme.customTheme.Primary,
-              labelTextColor: AppTheme.customTheme.Primary,
-              cursorColor: AppTheme.customTheme.Primary,
-            ),
-            FxSpacing.height(24),
+            // FxTextField(
+            //   floatingLabelBehavior: FloatingLabelBehavior.never,
+            //   autoFocusedBorder: true,
+            //   textFieldStyle: FxTextFieldStyle.outlined,
+            //   textFieldType: FxTextFieldType.name,
+            //   filled: true,
+            //   fillColor: AppTheme.customTheme.Primary.withAlpha(40),
+            //   enabledBorderColor: AppTheme.customTheme.Primary,
+            //   focusedBorderColor: AppTheme.customTheme.Primary,
+            //   prefixIconColor: AppTheme.customTheme.Primary,
+            //   labelTextColor: AppTheme.customTheme.Primary,
+            //   cursorColor: AppTheme.customTheme.Primary,
+            //   controller: nameController,
+            // ),
+            // FxSpacing.height(24),
             FxTextField(
               floatingLabelBehavior: FloatingLabelBehavior.never,
               autoFocusedBorder: true,
@@ -66,6 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               prefixIconColor: AppTheme.customTheme.Primary,
               labelTextColor: AppTheme.customTheme.Primary,
               cursorColor: AppTheme.customTheme.Primary,
+              controller: emailController,
             ),
             FxSpacing.height(24),
             FxTextField(
@@ -80,7 +87,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               prefixIconColor: AppTheme.customTheme.Primary,
               labelTextColor: AppTheme.customTheme.Primary,
               cursorColor: AppTheme.customTheme.Primary,
+              controller: passwordController,
             ),
+
             FxSpacing.height(16),
             Align(
               alignment: Alignment.centerRight,
@@ -100,11 +109,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
             FxSpacing.height(16),
             FxButton.block(
                 borderRadiusAll: 8,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FullApp()),
-                  );
+                onPressed: () async {
+                  if (emailController.text != "" &&
+                      passwordController.text != "") {
+                    dynamic res =
+                        await context.read<AuthenticationService>().signUp(
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim(),
+                            );
+
+                    if (res == "signed up") {
+                      emailController.text = "";
+                      passwordController.text = "";
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => FullApp()),
+                      );
+                    } else {
+                      passwordController.text = "";
+                      await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Error'),
+                              content: Text(res),
+                              actions: [
+                                TextButton(
+                                  child: Text('OK'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    }
+                  } else {
+                    await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Error'),
+                            content:
+                                Text('Please fill in the required details!'),
+                            actions: [
+                              TextButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  }
                 },
                 backgroundColor: AppTheme.customTheme.Primary,
                 child: FxText.b1(
