@@ -1,6 +1,6 @@
 import 'package:quikcook/AppTheme.dart';
 import 'package:quikcook/auth/auth_service.dart';
-import './forgot_password_screen.dart';
+// import './forgot_password_screen.dart';
 import './full_app.dart';
 import './login_screen.dart';
 import 'package:provider/provider.dart';
@@ -90,22 +90,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
               controller: passwordController,
             ),
 
-            FxSpacing.height(16),
-            Align(
-              alignment: Alignment.centerRight,
-              child: FxButton.text(
-                  padding: FxSpacing.zero,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ForgotPasswordScreen()),
-                    );
-                  },
-                  splashColor: AppTheme.customTheme.Primary.withAlpha(40),
-                  child: FxText.caption("Forgot Password?",
-                      color: AppTheme.customTheme.Primary)),
-            ),
+            // FxSpacing.height(16),
+            // Align(
+            //   alignment: Alignment.centerRight,
+            //   child: FxButton.text(
+            //       padding: FxSpacing.zero,
+            //       onPressed: () {
+            //         Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (context) => ForgotPasswordScreen()),
+            //         );
+            //       },
+            //       splashColor: AppTheme.customTheme.Primary.withAlpha(40),
+            //       child: FxText.caption("Forgot Password?",
+            //           color: AppTheme.customTheme.Primary)),
+            // ),
             FxSpacing.height(16),
             FxButton.block(
                 borderRadiusAll: 8,

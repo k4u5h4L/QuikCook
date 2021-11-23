@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quikcook/AppTheme.dart';
 import 'package:quikcook/auth/auth_service.dart';
 import 'package:provider/provider.dart';
-import './forgot_password_screen.dart';
+// import './forgot_password_screen.dart';
 import './full_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutx/icons/two_tone/two_tone_icon.dart';
@@ -74,22 +74,22 @@ class _LoginScreenState extends State<LoginScreen> {
               cursorColor: AppTheme.customTheme.Primary,
               controller: passwordController,
             ),
-            FxSpacing.height(16),
-            Align(
-              alignment: Alignment.centerRight,
-              child: FxButton.text(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ForgotPasswordScreen()),
-                    );
-                  },
-                  padding: FxSpacing.zero,
-                  splashColor: AppTheme.customTheme.Primary.withAlpha(40),
-                  child: FxText.caption("Forgot Password?",
-                      color: AppTheme.customTheme.Primary)),
-            ),
+            // FxSpacing.height(16),
+            // Align(
+            //   alignment: Alignment.centerRight,
+            //   child: FxButton.text(
+            //       onPressed: () {
+            //         Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (context) => ForgotPasswordScreen()),
+            //         );
+            //       },
+            //       padding: FxSpacing.zero,
+            //       splashColor: AppTheme.customTheme.Primary.withAlpha(40),
+            //       child: FxText.caption("Forgot Password?",
+            //           color: AppTheme.customTheme.Primary)),
+            // ),
             FxSpacing.height(16),
             FxButton.block(
                 borderRadiusAll: 8,

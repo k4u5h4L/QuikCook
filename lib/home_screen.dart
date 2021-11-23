@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quikcook/AppTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutx/icons/two_tone/two_tone_icon.dart';
@@ -8,6 +9,7 @@ import 'package:flutx/utils/spacing.dart';
 import 'package:flutx/widgets/button/button.dart';
 import 'package:flutx/widgets/container/container.dart';
 import 'package:flutx/widgets/text/text.dart';
+// import 'package:quikcook/models/user.dart';
 
 import 'recipe_screen.dart';
 import 'models/recipe.dart';
@@ -20,6 +22,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late Recipe recipe;
   late List<Recipe> trendingRecipe;
+
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
@@ -40,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   margin: FxSpacing.x(16),
-                  child: FxText.h6("Hello Den,",
+                  child: FxText.h6("Hello, ${user?.email?.split("@")[0]}!",
                       color: AppTheme.customTheme.Primary, fontWeight: 800),
                 ),
                 Container(
@@ -53,42 +57,50 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 FxSpacing.height(16),
                 FxContainer(
-                    margin: FxSpacing.x(16),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RecipeScreen()));
-                    },
-                    splashColor: AppTheme.customTheme.Primary.withAlpha(40),
-                    color: AppTheme.customTheme.Primary.withAlpha(30),
-                    child: Row(
-                      children: [
-                        FxTwoToneIcon(
-                          FxTwoToneMdiIcons.outdoor_grill,
-                          color: AppTheme.customTheme.Primary,
-                          size: 48,
-                        ),
-                        FxSpacing.width(16),
-                        Expanded(
-                            child: Column(
+                  margin: FxSpacing.x(16),
+                  onTap: null,
+                  splashColor: AppTheme.customTheme.Primary.withAlpha(40),
+                  color: AppTheme.customTheme.Primary.withAlpha(30),
+                  child: Row(
+                    children: [
+                      FxTwoToneIcon(
+                        FxTwoToneMdiIcons.outdoor_grill,
+                        color: AppTheme.customTheme.Primary,
+                        size: 48,
+                      ),
+                      FxSpacing.width(16),
+                      Expanded(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             FxText.caption(
-                                "You have 12 recipes that\nyou haven\'t tried yet",
+                                "There are x recipes waiting for you!",
                                 fontWeight: 700),
                             FxButton.text(
-                                padding: FxSpacing.zero,
-                                onPressed: () {},
-                                splashColor:
-                                    AppTheme.customTheme.Primary.withAlpha(40),
-                                child: FxText.button("See Recipes",
+                              padding: FxSpacing.zero,
+                              onPressed: () {},
+                              splashColor:
+                                  AppTheme.customTheme.Primary.withAlpha(40),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => RecipeScreen(),
+                                    ),
+                                  );
+                                },
+                                child: FxText("See Recipes",
                                     color: AppTheme.customTheme.Primary,
-                                    decoration: TextDecoration.underline))
+                                    decoration: TextDecoration.underline),
+                              ),
+                            ),
                           ],
-                        ))
-                      ],
-                    )),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
                 FxSpacing.height(16),
                 Container(
                   margin: FxSpacing.x(16),
