@@ -1,6 +1,31 @@
-# QuikCook
+<h1 align="center">QuikCook</h1></br>
 
-A recipes app for purists, built with flutter.
+<p align="center">
+:fork_and_knife:  A recipes all for purists, built with flutter. :meat_on_bone:
+</p>
+<br>
+
+<p align="center">
+  <a href="#"><img alt="built with love" src="https://forthebadge.com/images/badges/built-with-love.svg"/></a>
+  <a href="#"><IMG alt="built for android" src="https://forthebadge.com/images/badges/built-for-android.svg"/><a>
+  <a href="https://github.com/k4u5h4L"><img alt="k4u5h4L GitHub badge" height="37" src="https://badgen.net/badge/GitHub/k4u5h4L?icon=github&color=24292e"/></a>
+  <a href="#"><img alt="machine Badge" height="37" src="https://forthebadge.com/images/badges/works-on-my-machine.svg"/></a>
+  <a href="#"><img alt="not bug but feature" height="37" src="https://forthebadge.com/images/badges/not-a-bug-a-feature.svg"/></a>
+  <a href="#"><img alt="spaghetti Badge" src="https://forthebadge.com/images/badges/contains-tasty-spaghetti-code.svg"/></a>
+</p>
+
+<br>
+<p align="center">
+<img width="460px" src="assets/logo.png" alt="quikcook"></img>
+</p><br>
+
+## Technologies used:
+
+-   Flutter for mobile.
+
+-   Firebase for authentication.
+
+-   Cloud Firestore as a database.
 
 ## Getting Started
 
