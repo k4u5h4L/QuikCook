@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:quikcook/AppTheme.dart';
+import './AppTheme.dart';
 import './login_screen.dart';
 import './register_screen.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             children: [
               FxText.h5(
-                "Welcome to ",
+                "Welcome to \n  QuikCook",
                 color: AppTheme.customTheme.Primary,
               ),
               Expanded(

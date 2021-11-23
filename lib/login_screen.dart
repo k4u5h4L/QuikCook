@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quikcook/AppTheme.dart';
+import 'package:quikcook/auth/auth_service.dart';
+import 'package:provider/provider.dart';
 import './forgot_password_screen.dart';
 import './full_app.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +21,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -51,6 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
               prefixIconColor: AppTheme.customTheme.Primary,
               labelTextColor: AppTheme.customTheme.Primary,
               cursorColor: AppTheme.customTheme.Primary,
+              controller: emailController,
             ),
             FxSpacing.height(24),
             FxTextField(
@@ -65,6 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
               prefixIconColor: AppTheme.customTheme.Primary,
               labelTextColor: AppTheme.customTheme.Primary,
               cursorColor: AppTheme.customTheme.Primary,
+              controller: passwordController,
             ),
             FxSpacing.height(16),
             Align(
@@ -85,11 +93,32 @@ class _LoginScreenState extends State<LoginScreen> {
             FxSpacing.height(16),
             FxButton.block(
                 borderRadiusAll: 8,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FullApp()),
-                  );
+                onPressed: () async {
+                  dynamic res =
+                      await context.read<AuthenticationService>().signIn(
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                          );
+
+                  if (!res is FirebaseAuthException) {
+                    emailController.text = "";
+                    passwordController.text = "";
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FullApp()),
+                    );
+                  } else {
+                    SnackBar(
+                      content: Text('Your email or password is incorrect!'),
+                      // action: SnackBarAction(
+                      //   label: 'Undo',
+                      //   onPressed: () {
+                      //     // Some code to undo the change.
+                      //   },
+                      // ),
+                    );
+                  }
                 },
                 backgroundColor: AppTheme.customTheme.Primary,
                 child: FxText.b1(
@@ -107,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   );
                 },
                 splashColor: AppTheme.customTheme.Primary.withAlpha(40),
-                child: FxText.button("I haven\'t an account",
+                child: FxText.button("I don\'t an account",
                     decoration: TextDecoration.underline,
                     color: AppTheme.customTheme.Primary))
           ],

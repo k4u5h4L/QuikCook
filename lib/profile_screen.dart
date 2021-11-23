@@ -1,4 +1,5 @@
 import 'package:quikcook/AppTheme.dart';
+import 'package:quikcook/auth/auth_service.dart';
 import './splash_screen.dart';
 import './models/user.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:flutx/widgets/button/button.dart';
 import 'package:flutx/widgets/card/card.dart';
 import 'package:flutx/widgets/container/container.dart';
 import 'package:flutx/widgets/text/text.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -185,6 +187,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Center(
                     child: FxButton.rounded(
                   onPressed: () {
+                    context.read<AuthenticationService>().signOut();
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SplashScreen()),

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "151068533188",
+    "project_id": "quikcook-f5f48",
+    "storage_bucket": "quikcook-f5f48.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151068533188:android:9ea65a3a9a1ab0e7c80491",
+        "android_client_info": {
+          "package_name": "com.example.quikcook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "151068533188-coe78fk7vuc685g6luq0tp4shnji05us.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy7VdbxFFkiH2-IcMth_SfSfpRdK14l8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "151068533188-coe78fk7vuc685g6luq0tp4shnji05us.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
