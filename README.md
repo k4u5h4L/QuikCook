@@ -1,7 +1,7 @@
 <h1 align="center">QuikCook</h1></br>
 
 <p align="center">
-:fork_and_knife:  A recipes all for purists, built with flutter. :meat_on_bone:
+:fork_and_knife:  A recipes app for purists, built with flutter. :meat_on_bone:
 </p>
 <br>
 
