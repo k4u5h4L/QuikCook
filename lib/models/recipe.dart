@@ -11,12 +11,12 @@ class Recipe {
   Recipe(this.title, this.tag, this.image, this.preparationTime, this.serving,
       this.favorite);
 
-  Future<List<Recipe>> getList() async {
-    QuerySnapshot querySnapshot = await recipes.get();
+  static List<Recipe> getList() {
+    // QuerySnapshot querySnapshot = await recipes.get();
 
-    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    // final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
 
-    print(allData);
+    // print(allData);
 
     return [
       Recipe("Matar Paneer", "South", "./assets/images/quikcook/recipe-2.jpg",
@@ -28,7 +28,7 @@ class Recipe {
     ];
   }
 
-  Recipe getOne() {
+  static Recipe getOne() {
     return Recipe("Chicken Makhani\nSouth Special", "Non Veg",
         './assets/images/quikcook/recipe-1.jpg', 30, 1, false);
   }

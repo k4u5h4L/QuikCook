@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quikcook/AppTheme.dart';
 import 'package:flutter/material.dart';
@@ -26,12 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final User? user = FirebaseAuth.instance.currentUser;
 
   @override
-  void initState() async {
-    Recipe r = Recipe("Matar Paneer", "South",
-        "./assets/images/quikcook/recipe-2.jpg", 30, 1, true);
+  void initState() {
     super.initState();
-    recipe = r.getOne();
-    trendingRecipe = await r.getList();
+    recipe = Recipe.getOne();
+    trendingRecipe = Recipe.getList();
   }
 
   @override
@@ -202,12 +201,38 @@ class _HomeScreenState extends State<HomeScreen> {
                     )),
                 FxSpacing.height(16),
                 SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: recipeList(),
-                  ),
-                ),
+                    physics: ClampingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('recipes')
+                          .snapshots(),
+                      builder:
+                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppTheme.customTheme.Primary),
+                                  strokeWidth: 2),
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        return Row(
+                          children: snapshot.data!.docs.map(
+                            (r) {
+                              return singleRecipe(Recipe(r['name'],
+                                  r['cuisine'], r['imgSrc'], 50, 2, true));
+                            },
+                          ).toList(),
+                        );
+                      },
+                    )),
                 FxSpacing.height(16),
               ],
             ),
@@ -239,9 +264,18 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.all(Radius.circular(8)),
         child: Stack(
           children: [
-            Image(
-              image: AssetImage(recipe.image),
-              width: 240,
+            Container(
+              child: recipe.image.startsWith("http")
+                  ? Image.network(
+                      recipe.image,
+                      width: 240,
+                      height: 340,
+                    )
+                  : Image(
+                      image: AssetImage(recipe.image),
+                      width: 240,
+                      height: 340,
+                    ),
             ),
             Positioned(
                 left: 16,
