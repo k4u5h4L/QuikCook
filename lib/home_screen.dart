@@ -26,10 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final User? user = FirebaseAuth.instance.currentUser;
 
   @override
-  void initState() {
+  void initState() async {
+    Recipe r = Recipe("Matar Paneer", "South",
+        "./assets/images/quikcook/recipe-2.jpg", 30, 1, true);
     super.initState();
-    recipe = Recipe.getOne();
-    trendingRecipe = Recipe.getList();
+    recipe = r.getOne();
+    trendingRecipe = await r.getList();
   }
 
   @override

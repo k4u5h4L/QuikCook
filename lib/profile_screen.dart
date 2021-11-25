@@ -1,5 +1,7 @@
 import 'package:quikcook/AppTheme.dart';
+import 'package:quikcook/AppThemeNotifier.dart';
 import 'package:quikcook/auth/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './splash_screen.dart';
 import './models/user.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,10 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   late User user;
 
-  bool notification = true, offlineReading = false;
+  AppThemeNotifier themeNotifier = AppThemeNotifier();
+
+  bool notification = true, customAppTheme = true;
+  String themeName = "Light";
 
   @override
   void initState() {
@@ -122,15 +127,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   activeTrackColor: AppTheme.customTheme.Primary.withAlpha(150),
                   activeColor: AppTheme.customTheme.Primary,
                   title: FxText.b2(
-                    "Offline Reading",
+                    "Theme $themeName",
                     letterSpacing: 0,
                   ),
                   onChanged: (value) {
                     setState(() {
-                      offlineReading = value;
+                      customAppTheme = value;
+                      themeName = value ? "Light" : "Dark";
                     });
+
+                    themeNotifier.updateTheme(value ? 1 : 2);
                   },
-                  value: offlineReading,
+                  value: customAppTheme,
                 ),
                 Divider(
                   thickness: 0.8,
