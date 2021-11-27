@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Recipe {
-  final String title, tag, image;
+  final String name, tag, image;
   final int preparationTime, serving;
   final bool favorite;
 
-  CollectionReference recipes =
-      FirebaseFirestore.instance.collection('recipes');
-
-  Recipe(this.title, this.tag, this.image, this.preparationTime, this.serving,
+  Recipe(this.name, this.tag, this.image, this.preparationTime, this.serving,
       this.favorite);
 
   static List<Recipe> getList() {
+    // CollectionReference recipes =
+    //   FirebaseFirestore.instance.collection('recipes');
+
     // QuerySnapshot querySnapshot = await recipes.get();
 
     // final allData = querySnapshot.docs.map((doc) => doc.data()).toList();

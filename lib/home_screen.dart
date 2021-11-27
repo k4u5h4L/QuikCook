@@ -10,6 +10,7 @@ import 'package:flutx/utils/spacing.dart';
 import 'package:flutx/widgets/button/button.dart';
 import 'package:flutx/widgets/container/container.dart';
 import 'package:flutx/widgets/text/text.dart';
+import 'package:quikcook/models/singleRecipe.dart';
 // import 'package:quikcook/models/user.dart';
 
 import 'recipe_screen.dart';
@@ -89,7 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(),
+                                      builder: (context) => RecipeScreen(
+                                          key:
+                                              Key("${trendingRecipe.hashCode}"),
+                                          singleRecipe: trendingRecipe),
                                     ),
                                   );
                                 },
@@ -105,93 +109,133 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 FxSpacing.height(16),
-                Container(
-                  margin: FxSpacing.x(16),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RecipeScreen()));
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      child: Stack(
-                        children: [
-                          Image(
-                            image: AssetImage(recipe.image),
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('trendingRecipe')
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    AppTheme.customTheme.Primary),
+                                strokeWidth: 2),
                           ),
-                          Positioned(
-                              left: 16,
-                              top: 16,
-                              child: FxContainer(
-                                paddingAll: 8,
-                                color:
-                                    AppTheme.customTheme.Primary.withAlpha(200),
-                                child: FxText.button(recipe.tag,
-                                    color: AppTheme.customTheme.OnPrimary,
-                                    fontWeight: 600),
-                              )),
-                          Positioned(
-                              right: 16,
-                              top: 16,
-                              child: Icon(
-                                recipe.favorite
-                                    ? Icons.bookmark
-                                    : Icons.bookmark_outline,
-                                color: AppTheme.customTheme.Primary,
-                                size: 28,
-                              )),
-                          Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                padding: FxSpacing.fromLTRB(16, 48, 16, 32),
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.bottomCenter,
-                                        end: Alignment.topCenter,
-                                        colors: [
-                                      AppTheme.customTheme.Primary
-                                          .withAlpha(220),
-                                      AppTheme.customTheme.Primary
-                                          .withAlpha(180),
-                                      AppTheme.customTheme.Primary
-                                          .withAlpha(140),
-                                      AppTheme.customTheme.Primary
-                                          .withAlpha(100),
-                                      Colors.transparent
-                                    ],
-                                        stops: [
-                                      0.1,
-                                      0.25,
-                                      0.5,
-                                      0.7,
-                                      1
-                                    ])),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    FxText.h5(recipe.title,
-                                        color: Colors.white, fontWeight: 800),
-                                    FxSpacing.height(16),
-                                    FxText.caption(
-                                        recipe.preparationTime.toString() +
-                                            " Recipes | " +
-                                            recipe.serving.toString() +
-                                            " Serving",
-                                        color: Colors.white,
-                                        fontWeight: 600),
-                                  ],
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
+                      }
+
+                      var trendingRecipe = snapshot.data!.docs[0];
+                      return Container(
+                        margin: FxSpacing.x(16),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RecipeScreen(
+                                        key: Key("${trendingRecipe.hashCode}"),
+                                        singleRecipe: trendingRecipe)));
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  child: trendingRecipe['imgSrc']
+                                          .startsWith("http")
+                                      ? Image.network(
+                                          trendingRecipe['imgSrc'],
+                                          width: 340,
+                                          height: 350,
+                                        )
+                                      : Image(
+                                          image: AssetImage(
+                                              trendingRecipe['imgSrc']),
+                                          width: 340,
+                                          height: 350,
+                                        ),
                                 ),
-                              ))
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                                Positioned(
+                                    left: 16,
+                                    top: 16,
+                                    child: FxContainer(
+                                      paddingAll: 8,
+                                      color: AppTheme.customTheme.Primary
+                                          .withAlpha(200),
+                                      child: FxText.button(
+                                          trendingRecipe['cuisine'],
+                                          color: AppTheme.customTheme.OnPrimary,
+                                          fontWeight: 600),
+                                    )),
+                                Positioned(
+                                    right: 16,
+                                    top: 16,
+                                    child: Icon(
+                                      recipe.favorite
+                                          ? Icons.bookmark
+                                          : Icons.bookmark_outline,
+                                      color: AppTheme.customTheme.Primary,
+                                      size: 28,
+                                    )),
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Container(
+                                    padding: FxSpacing.fromLTRB(16, 48, 16, 32),
+                                    decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.bottomCenter,
+                                            end: Alignment.topCenter,
+                                            colors: [
+                                          AppTheme.customTheme.Primary
+                                              .withAlpha(220),
+                                          AppTheme.customTheme.Primary
+                                              .withAlpha(180),
+                                          AppTheme.customTheme.Primary
+                                              .withAlpha(140),
+                                          AppTheme.customTheme.Primary
+                                              .withAlpha(100),
+                                          Colors.transparent
+                                        ],
+                                            stops: [
+                                          0.1,
+                                          0.25,
+                                          0.5,
+                                          0.7,
+                                          1
+                                        ])),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        FxText.h5(trendingRecipe['name'],
+                                            color: Colors.white,
+                                            fontWeight: 800),
+                                        FxSpacing.height(16),
+                                        FxText.caption(
+                                            recipe.preparationTime.toString() +
+                                                " Recipes | " +
+                                                recipe.serving.toString() +
+                                                " Serving",
+                                            color: Colors.white,
+                                            fontWeight: 600),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
                 FxSpacing.height(16),
                 Container(
                     margin: FxSpacing.x(16),
@@ -226,8 +270,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Row(
                           children: snapshot.data!.docs.map(
                             (r) {
-                              return singleRecipe(Recipe(r['name'],
-                                  r['cuisine'], r['imgSrc'], 50, 2, true));
+                              return singleRecipe(
+                                SingleRecipe(
+                                  name: r['name'],
+                                  cuisine: r['cuisine'],
+                                  imgSrc: r['imgSrc'],
+                                  calories: r['calories'],
+                                  carbs: r['carbs'],
+                                  category: r['category'],
+                                  desc: r['desc'],
+                                  ingredients: r['ingredients'],
+                                  preparation: r['preparation'],
+                                  protein: r['protein'],
+                                ),
+                              );
                             },
                           ).toList(),
                         );
@@ -242,37 +298,41 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  List<Widget> recipeList() {
-    List<Widget> list = [];
-    list.add(FxSpacing.width(16));
+  // List<Widget> recipeList() {
+  //   List<Widget> list = [];
+  //   list.add(FxSpacing.width(16));
 
-    for (int i = 0; i < trendingRecipe.length; i++) {
-      list.add(singleRecipe(trendingRecipe[i]));
-      list.add(FxSpacing.width(16));
-    }
+  //   for (int i = 0; i < trendingRecipe.length; i++) {
+  //     list.add(singleRecipe(trendingRecipe[i]));
+  //     list.add(FxSpacing.width(16));
+  //   }
 
-    return list;
-  }
+  //   return list;
+  // }
 
-  Widget singleRecipe(Recipe recipe) {
+  Widget singleRecipe(SingleRecipe recipe) {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => RecipeScreen()));
+          context,
+          MaterialPageRoute(
+            builder: (context) => RecipeScreen(singleRecipe: recipe),
+          ),
+        );
       },
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(8)),
         child: Stack(
           children: [
             Container(
-              child: recipe.image.startsWith("http")
+              child: recipe.imgSrc.startsWith("http")
                   ? Image.network(
-                      recipe.image,
+                      recipe.imgSrc,
                       width: 240,
                       height: 340,
                     )
                   : Image(
-                      image: AssetImage(recipe.image),
+                      image: AssetImage(recipe.imgSrc),
                       width: 240,
                       height: 340,
                     ),
@@ -283,48 +343,47 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: FxContainer(
                   paddingAll: 8,
                   color: Colors.black.withAlpha(200),
-                  child: FxText.button(recipe.tag,
+                  child: FxText.button(recipe.imgSrc,
                       color: AppTheme.customTheme.OnPrimary, fontWeight: 600),
                 )),
             Positioned(
-                bottom: 16,
-                left: 12,
-                right: 12,
-                child: FxContainer(
-                  padding: FxSpacing.xy(12, 16),
-                  color: Color.lerp(
-                          AppTheme.customTheme.Primary, Colors.black, 0.9)!
-                      .withAlpha(160),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: FxText.sh1(recipe.title,
-                                color: Colors.white, fontWeight: 800),
-                          ),
-                          Icon(
-                            recipe.favorite
-                                ? Icons.bookmark
-                                : Icons.bookmark_outline,
-                            color: AppTheme.customTheme.Primary,
-                            size: 18,
-                          )
-                        ],
-                      ),
-                      FxSpacing.height(16),
-                      FxText.overline(
-                          recipe.preparationTime.toString() +
-                              " Recipes | " +
-                              recipe.serving.toString() +
-                              " Serving",
-                          color: Colors.white,
-                          fontWeight: 600),
-                    ],
-                  ),
-                ))
+              bottom: 16,
+              left: 12,
+              right: 12,
+              child: FxContainer(
+                padding: FxSpacing.xy(12, 16),
+                color:
+                    Color.lerp(AppTheme.customTheme.Primary, Colors.black, 0.9)!
+                        .withAlpha(160),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FxText.sh1(recipe.name,
+                              color: Colors.white, fontWeight: 800),
+                        ),
+                        Icon(
+                          true ? Icons.bookmark : Icons.bookmark_outline,
+                          color: AppTheme.customTheme.Primary,
+                          size: 18,
+                        )
+                      ],
+                    ),
+                    FxSpacing.height(16),
+                    FxText.overline(
+                        recipe.carbs.toString() +
+                            " Carbs | " +
+                            recipe.protein.toString() +
+                            " Protein",
+                        color: Colors.white,
+                        fontWeight: 600),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

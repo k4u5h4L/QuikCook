@@ -7,16 +7,24 @@ import 'package:flutx/utils/text_utils.dart';
 import 'package:flutx/widgets/card/card.dart';
 import 'package:flutx/widgets/container/container.dart';
 import 'package:flutx/widgets/text/text.dart';
+import 'package:quikcook/models/singleRecipe.dart';
 
 import 'models/full_recipe.dart';
 
 class RecipeScreen extends StatefulWidget {
+  final dynamic singleRecipe;
+
+  RecipeScreen({Key? key, required this.singleRecipe}) : super(key: key);
+
   @override
   _RecipeScreenState createState() => _RecipeScreenState();
 }
 
 class _RecipeScreenState extends State<RecipeScreen> {
   late FullRecipe recipe;
+
+  @override
+  RecipeScreen get widget => super.widget;
 
   @override
   void initState() {
@@ -27,6 +35,8 @@ class _RecipeScreenState extends State<RecipeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("recipe obj: ${widget.singleRecipe['name']}");
+
     return Theme(
       data: AppTheme.theme.copyWith(
           colorScheme: AppTheme.theme.colorScheme
@@ -69,9 +79,10 @@ class _RecipeScreenState extends State<RecipeScreen> {
           child: ListView(
             padding: FxSpacing.fromLTRB(24, 4, 24, 0),
             children: [
-              FxText.h5(recipe.title, fontWeight: 800, letterSpacing: -0.2),
+              FxText.h5(widget.singleRecipe['name'],
+                  fontWeight: 800, letterSpacing: -0.2),
               FxSpacing.height(8),
-              FxText.b2(recipe.body,
+              FxText.b2(widget.singleRecipe['desc'],
                   color: AppTheme.theme.colorScheme.onBackground.withAlpha(140),
                   letterSpacing: 0,
                   fontWeight: 600),
@@ -84,8 +95,125 @@ class _RecipeScreenState extends State<RecipeScreen> {
                           fontWeight: 700, letterSpacing: -0.2),
                       FxSpacing.height(16),
                       Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: buildNutritionList()),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // children: buildNutritionList(),),
+                        children: [
+                          FxCard(
+                            borderRadiusAll: 50,
+                            padding: FxSpacing.fromLTRB(8, 8, 12, 8),
+                            color: AppTheme.customTheme.Primary.withAlpha(40),
+                            shadow: FxShadow(elevation: 8),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                FxContainer.bordered(
+                                  paddingAll: 4,
+                                  width: 32,
+                                  height: 32,
+                                  borderRadiusAll: 16,
+                                  color: AppTheme.customTheme.Primary
+                                      .withAlpha(200),
+                                  border: Border.all(
+                                      color: AppTheme.customTheme.Primary,
+                                      width: 1),
+                                  child: Center(
+                                    child: FxText.caption(
+                                        widget.singleRecipe['calories'],
+                                        letterSpacing: 0,
+                                        color: AppTheme.customTheme.OnPrimary),
+                                  ),
+                                ),
+                                FxSpacing.width(8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    FxText.button("Calories", fontWeight: 600),
+                                    FxText.overline("Kcal",
+                                        xMuted: true, fontWeight: 600),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+
+                          FxCard(
+                            borderRadiusAll: 50,
+                            padding: FxSpacing.fromLTRB(8, 8, 12, 8),
+                            color: AppTheme.customTheme.Primary.withAlpha(40),
+                            shadow: FxShadow(elevation: 8),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                FxContainer.bordered(
+                                    paddingAll: 4,
+                                    width: 32,
+                                    height: 32,
+                                    borderRadiusAll: 16,
+                                    color: AppTheme.customTheme.Primary
+                                        .withAlpha(200),
+                                    border: Border.all(
+                                        color: AppTheme.customTheme.Primary,
+                                        width: 1),
+                                    child: Center(
+                                        child: FxText.caption(
+                                            widget.singleRecipe['carbs'],
+                                            letterSpacing: 0,
+                                            color: AppTheme
+                                                .customTheme.OnPrimary))),
+                                FxSpacing.width(8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    FxText.button("Carbs", fontWeight: 600),
+                                    FxText.overline("g",
+                                        xMuted: true, fontWeight: 600),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+
+                          FxCard(
+                            borderRadiusAll: 50,
+                            padding: FxSpacing.fromLTRB(8, 8, 12, 8),
+                            color: AppTheme.customTheme.Primary.withAlpha(40),
+                            shadow: FxShadow(elevation: 8),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                FxContainer.bordered(
+                                    paddingAll: 4,
+                                    width: 32,
+                                    height: 32,
+                                    borderRadiusAll: 16,
+                                    color: AppTheme.customTheme.Primary
+                                        .withAlpha(200),
+                                    border: Border.all(
+                                        color: AppTheme.customTheme.Primary,
+                                        width: 1),
+                                    child: Center(
+                                        child: FxText.caption(
+                                            widget.singleRecipe['protein'],
+                                            letterSpacing: 0,
+                                            color: AppTheme
+                                                .customTheme.OnPrimary))),
+                                FxSpacing.width(8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    FxText.button("Protein", fontWeight: 600),
+                                    FxText.overline("g",
+                                        xMuted: true, fontWeight: 600),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+
+                          // spacing
+                          FxSpacing.height(16),
+                        ],
+                      ),
                     ],
                   ),
                   FxSpacing.width(24),
@@ -106,12 +234,14 @@ class _RecipeScreenState extends State<RecipeScreen> {
               FxSpacing.height(12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: buildIngredientList(),
+                children: buildIngredientList(
+                  ingredients: widget.singleRecipe['ingredients'],
+                ),
               ),
               FxSpacing.height(24),
               FxText.h6("Preparation", fontWeight: 700, letterSpacing: -0.2),
               FxSpacing.height(16),
-              FxText.b2(recipe.preparation,
+              FxText.b2(widget.singleRecipe['preparation'],
                   fontWeight: 500, letterSpacing: 0, muted: true),
               FxSpacing.height(80)
             ],
@@ -167,11 +297,13 @@ class _RecipeScreenState extends State<RecipeScreen> {
     );
   }
 
-  List<Widget> buildIngredientList() {
+  List<Widget> buildIngredientList(
+      {ingredients = const ["Info not provided."]}) {
     List<Widget> list = [];
-    for (Ingredient ingredient in recipe.ingredients) {
-      list.add(FxText.button(ingredient.ingredient,
-          muted: true, height: 1.7, letterSpacing: 0));
+    for (String ing in ingredients) {
+      list.add(
+        FxText.button(ing, muted: true, height: 1.7, letterSpacing: 0),
+      );
     }
     return list;
   }

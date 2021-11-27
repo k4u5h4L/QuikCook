@@ -1,4 +1,5 @@
 import 'package:quikcook/AppTheme.dart';
+import 'package:quikcook/models/singleRecipe.dart';
 import './models/date_time.dart';
 import './models/meal_plan.dart';
 import 'package:flutter/material.dart';
@@ -193,7 +194,13 @@ class _MealPlanScreenState extends State<MealPlanScreen> {
         splashColor: AppTheme.customTheme.Primary.withAlpha(40),
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => RecipeScreen()));
+            context,
+            MaterialPageRoute(
+              builder: (context) => RecipeScreen(
+                singleRecipe: SingleRecipe(name: "Potato"),
+              ),
+            ),
+          );
         },
         color: Colors.transparent,
         margin: FxSpacing.bottom(16),

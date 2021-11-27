@@ -117,7 +117,13 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
     return FxContainer(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => RecipeScreen()));
+          context,
+          MaterialPageRoute(
+            builder: (context) => RecipeScreen(
+              singleRecipe: dynamic,
+            ),
+          ),
+        );
       },
       color: Colors.transparent,
       padding: FxSpacing.bottom(32),
