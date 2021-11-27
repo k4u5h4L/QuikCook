@@ -189,10 +189,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Container(
                                     padding: FxSpacing.fromLTRB(16, 48, 16, 32),
                                     decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                            colors: [
+                                      gradient: LinearGradient(
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topCenter,
+                                        colors: [
                                           AppTheme.customTheme.Primary
                                               .withAlpha(220),
                                           AppTheme.customTheme.Primary
@@ -203,13 +203,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                               .withAlpha(100),
                                           Colors.transparent
                                         ],
-                                            stops: [
-                                          0.1,
-                                          0.25,
-                                          0.5,
-                                          0.7,
-                                          1
-                                        ])),
+                                        stops: [0.1, 0.25, 0.5, 0.7, 1],
+                                      ),
+                                    ),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment:
@@ -245,50 +241,50 @@ class _HomeScreenState extends State<HomeScreen> {
                     )),
                 FxSpacing.height(16),
                 SingleChildScrollView(
-                    physics: ClampingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    child: StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection('recipes')
-                          .snapshots(),
-                      builder:
-                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      AppTheme.customTheme.Primary),
-                                  strokeWidth: 2),
-                            ),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text("${snapshot.error}");
-                        }
-                        return Row(
-                          children: snapshot.data!.docs.map(
-                            (r) {
-                              return singleRecipe(
-                                SingleRecipe(
-                                  name: r['name'],
-                                  cuisine: r['cuisine'],
-                                  imgSrc: r['imgSrc'],
-                                  calories: r['calories'],
-                                  carbs: r['carbs'],
-                                  category: r['category'],
-                                  desc: r['desc'],
-                                  ingredients: r['ingredients'],
-                                  preparation: r['preparation'],
-                                  protein: r['protein'],
-                                ),
-                              );
-                            },
-                          ).toList(),
+                  physics: ClampingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('recipes')
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    AppTheme.customTheme.Primary),
+                                strokeWidth: 2),
+                          ),
                         );
-                      },
-                    )),
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
+                      }
+                      return Row(
+                        children: snapshot.data!.docs.map(
+                          (r) {
+                            return singleRecipe(
+                              SingleRecipe(
+                                name: r['name'],
+                                cuisine: r['cuisine'],
+                                imgSrc: r['imgSrc'],
+                                calories: r['calories'],
+                                carbs: r['carbs'],
+                                category: r['category'],
+                                desc: r['desc'],
+                                ingredients: r['ingredients'],
+                                preparation: r['preparation'],
+                                protein: r['protein'],
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      );
+                    },
+                  ),
+                ),
                 FxSpacing.height(16),
               ],
             ),

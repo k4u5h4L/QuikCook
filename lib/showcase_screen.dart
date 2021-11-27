@@ -131,7 +131,9 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
             child: Image(
               image: AssetImage(showcase.image),
             ),
